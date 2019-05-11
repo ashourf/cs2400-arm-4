@@ -23,9 +23,12 @@ numones	FILL		4
 		ADR		r1, example ;load number
 		LDR		r1, [r1] ;
 		MOV		r2, #0 ;intizalize count
+		ADR		r3 , numones
+		
 main
 		tst		r1, #1 ; check least signifcant bit
 		ADDNE	r2, r2, #1 ;if bit is 1 add 1 to counter
 		MOV		r1, r1 , ASR #1 ;bit shift multpicand left by 1 bit
 		CMP		r1, #0 ; check if r0 has been zeroed out
 		BNE		main
+		STR		r2, [r3] ; store number in numerons fill
