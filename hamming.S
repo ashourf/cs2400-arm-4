@@ -67,7 +67,7 @@ setup
 		MOV		r0, r2 ;mov r2 into r0 so its easier to keep track of
 		
 enP1
-		AND		r1,r0, #0b000000001010101	;mask top half. I get error if I mask the whole thing
+		AND		r1,r0,  #0b000000001010101	;mask top half. I get error if I mask the whole thing
 		AND		r2, r0, #0b101010100000000     ;mask botoom half
 		ADD		r1, r1, r2 ;add the numbers together
 		MOV		r3, #0 ;create counter
@@ -79,8 +79,55 @@ eP1Loop
 		BNE		eP1Loop
 enP1C
 		ADR		r4, p1 ;load parity bit
-		LDR		r4, [r4] 
-		TST		r3, #1 ; if counter is odd 
-		ADDNE	r0, r0, r4 ; add parity bit 
+		LDR		r4, [r4]
+		TST		r3, #1 ; if counter is odd
+		ADDNE	r0, r0, r4 ; add parity bit
+enP2
+		AND		r1,r0, #0b000000001100110	;mask top half. I get error if I mask the whole thing
+		AND		r2, r0,#0b110011000000000     ;mask botoom half
+		ADD		r1, r1, r2 ;add the numbers together
+		MOV		r3, #0 ;create counter
+eP2Loop
+		tst		r1, #1 ; check least signifcant bit
+		ADDNE	r3, r3, #1 ;if bit is 1 add 1 to counter
+		MOV		r1, r1 , ASR #1 ;bit shift multpicand left by 1 bit
+		CMP		r1, #0 ; check if r0 has been zeroed out
+		BNE		eP2Loop
+enP2C
+		ADR		r4, p2 ;load parity bit
+		LDR		r4, [r4]
+		TST		r3, #1 ; if counter is odd
+		ADDNE	r0, r0, r4 ; add parity bit
+enP3
+		AND		r1,r0, #0b000000001111000	;mask top half. I get error if I mask the whole thing
+		AND		r2, r0,#0b1111000000000000     ;mask botoom half
+		ADD		r1, r1, r2 ;add the numbers together
+		MOV		r3, #0 ;create counter
+eP3Loop
+		tst		r1, #1 ; check least signifcant bit
+		ADDNE	r3, r3, #1 ;if bit is 1 add 1 to counter
+		MOV		r1, r1 , ASR #1 ;bit shift multpicand left by 1 bit
+		CMP		r1, #0 ; check if r0 has been zeroed out
+		BNE		eP3Loop
+enP3C
+		ADR		r4, p4 ;load parity bit
+		LDR		r4, [r4]
+		TST		r3, #1 ; if counter is odd
+		ADDNE	r0, r0, r4 ; add parity bit
 		
-		
+enP4
+		AND		r1,r0, #0b011111110000000	;mask top half. I get error if I mask the whole thing
+		AND		r2, r0,#0b1000000000000000     ;mask botoom half
+		ADD		r1, r1, r2 ;add the numbers together
+		MOV		r3, #0 ;create counter
+eP4Loop
+		tst		r1, #1 ; check least signifcant bit
+		ADDNE	r3, r3, #1 ;if bit is 1 add 1 to counter
+		MOV		r1, r1 , ASR #1 ;bit shift multpicand left by 1 bit
+		CMP		r1, #0 ; check if r0 has been zeroed out
+		BNE		eP4Loop
+enP4C
+		ADR		r4, p8 ;load parity bit
+		LDR		r4, [r4]
+		TST		r3, #1 ; if counter is odd
+		ADDNE	r0, r0, r4 ; add parity bit
