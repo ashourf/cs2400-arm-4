@@ -58,6 +58,15 @@ hencode
 decode
 		
 setup
+		AND		r1, r0, #1 ;get d1
+		MOV		r2, r1, lsl #2 ;mov d1 to its proper place
+		AND		r3, r0, #0b1110 ;get d2 , d3, d4
+		MOV		r3, r3, lsl #3
+		ADD		r2, r2, r3
+		MOV		r3, r0, lsr #4 ; mask d1-d4 get d5-d11
+		MOV		r3, r3, lsl #7
+		ADD		r2,r2,r3 ;combine
+		MOV		r0, r2 ;mov r2 into r0 so its easier to keep track of
 		
 enP1
 		AND		r1,r0,  #0b000000001010101	;mask top half. I get error if I mask the whole thing
